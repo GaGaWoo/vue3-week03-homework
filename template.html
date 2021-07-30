@@ -13,7 +13,11 @@
     a {
       text-decoration: none;
     }
-
+    .status { padding: 5px 10px; }
+    .status.selected {
+      background: #000;
+      color: #fff;
+    }
     .completed {
       text-decoration: line-through
     }
@@ -33,9 +37,12 @@
         <div class="card-header d-flex justify-content-between">
           <span>有 <span id="taskCount">{{ todoList.length }}</span> 筆任務</span>
           <div>
-            <a href="#" class="me-3" @click.prevent="status = 'all'">全部</a>
-            <a href="#" class="me-3" @click.prevent="status = 'undone'">未完成</a>
-            <a href="#" class="me-3" @click.prevent="status = 'done'">已完成</a>
+            <a href="#" class="me-3 status rounded-pill" :class="status == 'all' ? 'selected' : ''"
+              @click.prevent="status = 'all'">全部</a>
+            <a href="#" class="me-3 status rounded-pill" :class="status == 'undone' ? 'selected' : ''"
+              @click.prevent="status = 'undone'">未完成</a>
+            <a href="#" class="me-3 status rounded-pill" :class="status == 'done' ? 'selected' : ''"
+              @click.prevent="status = 'done'">已完成</a>
             <a href="#" @click.prevent="clearTodo">清除所有任務</a>
           </div>
         </div>
@@ -57,8 +64,8 @@
             </div>
             <div class="d-flex" v-if="item.Id === editingItem.Id">
               <div class="input-group">
-                <input class="form-control" type="text" placeholder="編輯" 
-                  v-model="editingItem.Content" @keyup.enter="confirmTodo" @keyup.esc="cancelTodo" />
+                <input class="form-control" type="text" placeholder="編輯" v-model="editingItem.Content"
+                  @keyup.enter="confirmTodo" @keyup.esc="cancelTodo" />
                 <button type="button" class="btn btn-primary" @click="confirmTodo">確定</button>
               </div>
             </div>
@@ -142,7 +149,7 @@
           if (this.todoList.length > 0) {
             window.localStorage.setItem(this.localName,
               JSON.stringify(this.todoList));
-          }else {
+          } else {
             window.localStorage.removeItem(this.localName);
           }
         }
